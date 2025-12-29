@@ -2,7 +2,7 @@ import React from "react";
 import imgHero from "../assets/hero.jpg";
 import { Link } from "react-router-dom";
 
-const Hero = () => {
+const Home = () => {
  
   return (
     <div className="w-full min-h-screen relative  ">
@@ -36,4 +36,4 @@ const Hero = () => {
   );
 };
 
-export default Hero;
+export default Home;

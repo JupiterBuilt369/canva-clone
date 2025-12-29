@@ -24,32 +24,43 @@ const Editor = () => {
   const fabricCanvasRef = useRef(null);
   const undoStack = useRef([]);
   const redoStack = useRef([]);
+  const isRestoring = useRef(false);
 
   const ActivePanel = TOOL_PANELS[activeTool];
 
   const saveState = () => {
+    if (isRestoring.current) return;
     const json = fabricCanvasRef.current.toJSON();
     undoStack.current.push(json);
     redoStack.current = []; // clear redo
   };
-  const undo = () => {
+  const undo = async () => {
+    if (undoStack.current.length < 2) return;
     const currCanvas = fabricCanvasRef.current;
     if (!currCanvas) return;
-    if (undoStack.current.length < 2) return;
-    const prev = currCanvas.current.pop();
+    isRestoring.current = true;
+
+    const prev = undoStack.current.pop();
     redoStack.current.push(prev);
+
     const prevState = undoStack.current[undoStack.current.length - 1];
-    currCanvas.current.loadFromJSON(prevState);
-    currCanvas.current.renderAll();
+    await currCanvas.loadFromJSON(prevState);
+    currCanvas.renderAll();
+    isRestoring.current = false;
   };
 
-  const redo = () => {
-    if (!fabricCanvasRef.current) return;
+  const redo = async () => {
+    const currCanvas = fabricCanvasRef.current;
+    if (!currCanvas) return;
     if (redoStack.current.length === 0) return;
+
+    isRestoring.current = true;
     const currStack = redoStack.current.pop();
     undoStack.current.push(currStack);
-    fabricCanvasRef.current.loadFromJSON(currStack);
-    fabricCanvasRef.current.renderAll();
+
+    await currCanvas.loadFromJSON(currStack);
+    currCanvas.renderAll();
+    isRestoring.current = false;
   };
 
   // Create Fabric canvas
@@ -170,42 +181,7 @@ const Editor = () => {
 
       canvas.renderAll();
     });
-
-    canvas.on("object:moving", (e) => {
-      const obj = e.target;
-      if (!obj) return;
-
-      const objCenter = obj.getCenterPoint();
-
-      let snapX = false;
-      let snapY = false;
-
-      // Horizontal snap (X axis)
-      if (Math.abs(objCenter.x - centerX) < SNAP_THRESHOLD) {
-        obj.setPositionByOrigin(
-          new fabric.Point(centerX, objCenter.y),
-          "center",
-          "center"
-        );
-        snapX = true;
-      }
-
-      // Vertical snap (Y axis)
-      if (Math.abs(objCenter.y - centerY) < SNAP_THRESHOLD) {
-        obj.setPositionByOrigin(
-          new fabric.Point(objCenter.x, centerY),
-          "center",
-          "center"
-        );
-        snapY = true;
-      }
-
-      vGuide.visible = snapX;
-      hGuide.visible = snapY;
-
-      canvas.renderAll();
-    });
-
+    
     // /hide guide
     canvas.on("object:modified", () => {
       vGuide.visible = false;
@@ -229,12 +205,12 @@ const Editor = () => {
     const handleKeyDown = (e) => {
       const isCmd = e.ctrlKey || e.metaKey;
 
-      if (isCmd && e.key === "z" && !e.shiftKey) {
+      if (isCmd && e.key.toLowerCase() === "z" && !e.shiftKey) {
         e.preventDefault();
         undo();
       }
 
-      if (isCmd && e.shiftKey && e.key === "z") {
+      if (isCmd && e.shiftKey && e.key.toLowerCase() === "z") {
         e.preventDefault();
         redo();
       }
