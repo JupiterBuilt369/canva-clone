@@ -63,6 +63,18 @@ const Editor = () => {
     isRestoring.current = false;
   };
 
+  const deleteSelected = () => {
+    const canvas = fabricCanvasRef.current;
+    if (!canvas) return;
+
+    const activeObject = canvas.getActiveObject();
+    if (!activeObject) return;
+
+    canvas.remove(activeObject);
+    canvas.discardActiveObject();
+    canvas.renderAll();
+  };
+
   // Create Fabric canvas
   useEffect(() => {
     const canvas = new fabric.Canvas(canvasRef.current, {
@@ -181,7 +193,7 @@ const Editor = () => {
 
       canvas.renderAll();
     });
-    
+
     // /hide guide
     canvas.on("object:modified", () => {
       vGuide.visible = false;
@@ -213,6 +225,18 @@ const Editor = () => {
       if (isCmd && e.shiftKey && e.key.toLowerCase() === "z") {
         e.preventDefault();
         redo();
+      }
+      if (e.key === "Delete" || e.key === "Backspace") {
+        const canvas = fabricCanvasRef.current;
+        if (!canvas) return;
+
+        const activeObject = canvas.getActiveObject();
+        if (!activeObject) return;
+
+        e.preventDefault();
+        canvas.remove(activeObject);
+        canvas.discardActiveObject();
+        canvas.renderAll();
       }
     };
 

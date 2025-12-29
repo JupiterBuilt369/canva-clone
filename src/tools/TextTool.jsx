@@ -92,6 +92,19 @@ const TextTool = ({ fabricCanvasRef, selectedObject }) => {
 
     canvas.renderAll();
   };
+  
+  const deleteSelected = () => {
+  const canvas = fabricCanvasRef.current;
+  if (!canvas) return;
+
+  const activeObject = canvas.getActiveObject();
+  if (!activeObject) return;
+
+  canvas.remove(activeObject);
+  canvas.discardActiveObject();
+  canvas.renderAll();
+};
+
 
   const changeFont = (fontFamily) => {
     const canvas = fabricCanvasRef.current;
@@ -191,7 +204,7 @@ const TextTool = ({ fabricCanvasRef, selectedObject }) => {
             ))}
           </select>
           <input
-            className="bg-gray-200 rounded-md p-2"
+            className="bg-gray-200 rounded-md p-2 text-center"
             type="number"
             value={values.fontSize}
             onChange={(e) => updateText("fontSize", Number(e.target.value))}
