@@ -1,13 +1,13 @@
 import React from "react";
-import Hero from "./Pages/Hero";
+import Home from "./app/Home.jsx";
 import { Routes, Route } from "react-router-dom";
-import Editor from "./Pages/Editor";
+import Editor from "./app/Editor";
 
 function App() {
   return (
     <>
     <Routes>
-      <Route path="/" element={<Hero />} />
+      <Route path="/" element={<Home />} />
       <Route path="/editor" element={<Editor />} />
     </Routes>
     </>
