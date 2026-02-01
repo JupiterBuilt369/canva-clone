@@ -34,7 +34,7 @@ const Home = () => {
           </h1>
 
           <p className="text-gray-400 text-lg md:text-xl max-w-lg mx-auto lg:mx-0 leading-relaxed mb-10">
-            Turn your wildest ideas into reality with our intuitive editor. 
+            Turn your ideas into reality with our intuitive editor. 
             The canvas is yours—fill it with magic.
           </p>
 
@@ -62,9 +62,9 @@ const Home = () => {
           {/* Decorative border frame */}
           <div className="absolute inset-0 border-2 border-white/10 translate-x-4 translate-y-4 rounded-xl"></div>
           
-          {/* Main Image Container with Tilt */}
+          
           <div className="relative rounded-xl overflow-hidden shadow-2xl transition-transform duration-500 transform hover:scale-[1.02] hover:-rotate-1 border border-white/10 bg-gray-800">
-             {/* UI Header Mockup (Makes it look like software) */}
+             
             <div className="h-8 bg-gray-900/80 backdrop-blur border-b border-white/10 flex items-center px-4 gap-2">
                 <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
                 <div className="w-3 h-3 rounded-full bg-yellow-500/80"></div>
