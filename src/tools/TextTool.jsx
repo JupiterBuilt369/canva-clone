@@ -262,13 +262,13 @@ const TextTool = ({ fabricCanvasRef, selectedObject }) => {
             </button>
             <button
               onClick={() => toggleTextProp("fontStyle", "italic", "normal")}
-              className=" w-1/3 h-1/3 border border-black text-xl italic"
+              className=" w-1/3 h-1/3 border border-black text-xl italic rounded-xl"
             >
               I
             </button>
             <button
               onClick={() => toggleTextProp("underline", true, false)}
-              className=" w-1/3 h-1/3 border border-black  text-xl   underline"
+              className=" w-1/3 h-1/3 border border-black  text-xl rounded-xl  underline"
             >
               U
             </button>

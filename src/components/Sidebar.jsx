@@ -10,13 +10,13 @@ import {
 
 const Sidebar = ({ activeTool, setActiveTool }) => {
   const tools = [
-    {
-      id: "tool_select",
-      label: "Select",
-      icon: MousePointer,
-      type: "select",
-      enabled: true,
-    },
+    // {
+    //   id: "tool_select",
+    //   label: "Select",
+    //   icon: MousePointer,
+    //   type: "select",
+    //   enabled: true,
+    // },
     {
       id: "tool_text",
       label: "Text",
@@ -24,13 +24,13 @@ const Sidebar = ({ activeTool, setActiveTool }) => {
       type: "add_text",
       enabled: true,
     },
-    {
-      id: "tool_image",
-      label: "Image",
-      icon: Image,
-      type: "add_image",
-      enabled: true,
-    },
+    // {
+    //   id: "tool_image",
+    //   label: "Image",
+    //   icon: Image,
+    //   type: "add_image",
+    //   enabled: true,
+    // },
     {
       id: "tool_shapes",
       label: "Shapes",
@@ -45,13 +45,13 @@ const Sidebar = ({ activeTool, setActiveTool }) => {
       type: "change_background",
       enabled: true,
     },
-    {
-      id: "tool_elements",
-      label: "Elements",
-      icon: Layers,
-      type: "add_elements",
-      enabled: false,
-    },
+    // {
+    //   id: "tool_elements",
+    //   label: "Elements",
+    //   icon: Layers,
+    //   type: "add_elements",
+    //   enabled: false,
+    // },
   ];
 
   const handleActive = (type) => {
